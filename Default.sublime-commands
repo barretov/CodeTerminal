@@ -1,0 +1,10 @@
+[
+    {
+        "command": "code_terminal",
+        "caption": "CodeTerminal: Command"
+    },
+      {
+        "command": "code_terminal_history",
+        "caption": "CodeTerminal: Command History"
+    },
+]
