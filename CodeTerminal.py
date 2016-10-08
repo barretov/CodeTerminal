@@ -29,18 +29,16 @@ class CodeTerminalCommand(sublime_plugin.WindowCommand):
             
         results, errors = subprocess.Popen(query, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True).communicate()
 
-        panel.set_read_only(False)
-        panel.run_command('append', {'characters': "[Output]\n"})
-        panel.run_command('append', {'characters': "=====\n"})
-        panel.run_command('append', {'characters': "\n"})
-        
         if errors:
-            panel.run_command('append', {'characters': "[Error]\n"})
             result = errors.decode('utf-8', 'replace').replace('b\"\'"', '')
 
         else:
             result = results.decode('utf-8', 'replace').replace('b\"\'"', '')
 
+        panel.set_read_only(False)
+        panel.run_command('append', {'characters': "[Output]\n"})
+        panel.run_command('append', {'characters': "=====\n"})
+        panel.run_command('append', {'characters': "\n"})
         panel.run_command('append', {'characters': result})
         panel.run_command('append', {'characters': "\n[Finished]"})
         panel.set_read_only(True)
