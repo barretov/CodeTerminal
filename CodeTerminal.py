@@ -30,15 +30,15 @@ class CodeTerminalCommand(sublime_plugin.WindowCommand):
         results, errors = subprocess.Popen(query, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True).communicate()
 
         if errors:
-            result = errors.decode('utf-8', 'replace').replace('b\"\'"', '')
+            result = errors.decode('utf-8', 'replace').replace('b\"\'"', '').replace('\n', ' \n ')
 
         else:
-            result = results.decode('utf-8', 'replace').replace('b\"\'"', '')
+            result = results.decode('utf-8', 'replace').replace('b\"\'"', '').replace('\n', ' \n ')
 
         panel.set_read_only(False)
-        panel.run_command('append', {'characters': "[Output]\n"})
-        panel.run_command('append', {'characters': "=====\n"})
-        panel.run_command('append', {'characters': "\n"})
+        panel.run_command('append', {'characters': " [Output]\n"})
+        panel.run_command('append', {'characters': " =====\n"})
+        panel.run_command('append', {'characters': "\n "})
         panel.run_command('append', {'characters': result})
-        panel.run_command('append', {'characters': "\n[Finished]"})
+        panel.run_command('append', {'characters': "\n [Finished]"})
         panel.set_read_only(True)
