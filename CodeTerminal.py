@@ -21,12 +21,6 @@ class CodeTerminalCommand(sublime_plugin.WindowCommand):
         
         sublime.status_message('CodeTermial | Running command')
 
-        try:
-            os.chdir(sublime.active_window().extract_variables()['folder'])
-
-        except Exception as e:
-            pass
-            
         results, errors = subprocess.Popen(query, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True).communicate()
 
         if errors:
