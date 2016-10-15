@@ -42,6 +42,5 @@ class CodeTerminalCommand(sublime_plugin.WindowCommand):
             panel.set_read_only(True)
             
             os.chdir(current_local)
-        except Exception as e:
-            print("except")
-            pass
+        except Exception as error:
+            print(error)
