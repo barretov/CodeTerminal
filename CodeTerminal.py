@@ -21,18 +21,27 @@ class CodeTerminalCommand(sublime_plugin.WindowCommand):
         
         sublime.status_message('CodeTermial | Running command')
 
-        results, errors = subprocess.Popen(query, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True).communicate()
+        try:
+            current_local = os.getcwd()
+            os.chdir(sublime.active_window().extract_variables()['folder'])
+         
+            results, errors = subprocess.Popen(query, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True).communicate()
 
-        if errors:
-            result = errors.decode('utf-8', 'replace').replace('b\"\'"', '').replace('\n', ' \n ')
+            if errors:
+                result = errors.decode('utf-8', 'replace').replace('b\"\'"', '').replace('\n', ' \n ')
 
-        else:
-            result = results.decode('utf-8', 'replace').replace('b\"\'"', '').replace('\n', ' \n ')
+            else:
+                result = results.decode('utf-8', 'replace').replace('b\"\'"', '').replace('\n', ' \n ')
 
-        panel.set_read_only(False)
-        panel.run_command('append', {'characters': " [Output]\n"})
-        panel.run_command('append', {'characters': " =====\n"})
-        panel.run_command('append', {'characters': "\n "})
-        panel.run_command('append', {'characters': result})
-        panel.run_command('append', {'characters': "\n [Finished]"})
-        panel.set_read_only(True)
+            panel.set_read_only(False)
+            panel.run_command('append', {'characters': " [Output]\n"})
+            panel.run_command('append', {'characters': " =====\n"})
+            panel.run_command('append', {'characters': "\n "})
+            panel.run_command('append', {'characters': result})
+            panel.run_command('append', {'characters': "\n [Finished]"})
+            panel.set_read_only(True)
+            
+            os.chdir(current_local)
+        except Exception as e:
+            print("except")
+            pass
